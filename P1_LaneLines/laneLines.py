@@ -28,3 +28,29 @@ def region_of_interest(img, vertices):
 	cv2.fillPoly(mask, vertices, ignore_mask_color)
 	masked_image = cv2.bitwise_and(img, mask)
 	return masked_image
+
+def draw_lines(img, lines, color=[255,0,0], thickness=2):
+	for line in lines:
+		for x1, y1, x2, y2 in line:
+			cv2.line(img, (x1,y1), (x2,y2), color, thickness)
+
+def hough_lines(img, rho, theta, threshold, min_line_len, max_line_gap):
+	lines = cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), minLineLength=min_line_len, maxLineGap=max_line_gap)
+    line_img = np.zeros((img.shape[0], img.shape[1], 3), dtype=np.uint8)
+    draw_lines(line_img, lines)
+    return line_img
+
+def weighted_img(img, initial_img, α=0.8, β=1., γ=0.):
+	return cv2.addWeighted(initial_img, α, img, β, γ)
+
+import os
+os.listdir("test_images/")
+
+#TODO
+
+from moviepy.editor import VideoFileClip
+from IPython.display import HTML
+
+def process_image(image):
+	#TODO
+	return result
